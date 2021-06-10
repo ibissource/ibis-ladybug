@@ -1,0 +1,161 @@
+<!--    Report list panel-->
+<div class="row">
+    <div class="row">
+        <div class="col-md-0 p-0">
+            <button type="button" class="btn btn-info ml-2 mr-1 my-2" ng-click="$ctrl.refresh()" title="Refresh">
+                <i class="fa fa-undo" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="col-md-0 p-0">
+            <!--        TODO: Have another tab for options. or move to settings?-->
+            <button type="button" class="btn btn-info mx-1 my-2" data-toggle="modal" title="Settings"
+                    data-target="#optionsModal">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="col-md-0 p-0">
+            <input type="file" id="upload-file" style="display: none" custom-on-change="$ctrl.uploadReport">
+            <button type="button" class="btn btn-info mx-1 my-2" onclick="$('#upload-file').click()" title="Upload">
+                <i class="fa fa-upload" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="dropdown">
+            <button type="button" class="btn btn-info my-2 mx-1 dropdown-toggle" data-toggle="dropdown" title="Download"
+                    aria-haspopup="true" aria-expanded="false"><i class="fa fa-download px-2"></i><span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" ng-click="$ctrl.downloadReports(true, true)">Reports & Messages</a></li>
+                <li><a href="#" ng-click="$ctrl.downloadReports(false, true)">Reports</a></li>
+                <li><a href="#" ng-click="$ctrl.downloadReports(true, false)">Messages</a></li>
+            </ul>
+        </div>
+        <div class="col-md-0 p-0 mx-1">
+            <button type="button" class="btn btn-info m-2" ng-click="$ctrl.openAll()">Open All</button>
+        </div>
+<!--        TODO: Implement Views.-->
+<!--        <div class="dropdown">-->
+<!--            <span class="align-middle pr-0">View:</span>-->
+<!--            <button class="btn btn-info m-2 dropdown-toggle" type="button" id="dropdownMenu1"-->
+<!--                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+<!--                Dropdown-->
+<!--                <span class="caret"></span>-->
+<!--            </button>-->
+<!--            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+<!--                <li><a href="#">Action</a></li>-->
+<!--                <li><a href="#">Another action</a></li>-->
+<!--                <li><a href="#">Something else here</a></li>-->
+<!--                <li><a href="#">Separated link</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+        <div class="col-md-2 float-md-right">
+            <form class="form-horizontal pt-2">
+                <label for="tableLimit" class="sr-only">Table Limit</label>
+                <div class="input-group-append">
+                    <input type="number" class="form-control px-1" placeholder="0" id="tableLimit"
+                           aria-describedby="table-limit" ng-model="$ctrl.limit" ng-change="$ctrl.updateFilter('limit', $ctrl.limit);">
+                    <div class="input-group-text">/00</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th ng-repeat="column in $ctrl.columns" ng-click="$ctrl.updateOrder(column)">
+                    <i class="fa" ng-class="{'fa-sort-up': $ctrl.filters['order'] === 'ascending', 'fa-sort-down': $ctrl.filters['order'] === 'descending'}" ng-show="column === $ctrl.filters['sort']"></i>
+                    {{column}}
+                </th>
+            </tr>
+            <tr>
+                <th ng-repeat="column in $ctrl.columns">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Filter" ng-model="meta.filter"
+                               ng-change="$ctrl.updateFilter(column, meta.filter);">
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="metadata in $ctrl.metadatas" ng-click="$ctrl.selectReport(metadata)">
+                <td ng-repeat="column in $ctrl.columns">{{metadata[column]}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="optionsModal" tabindex="-1" role="dialog" aria-labelledby="optionsModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="optionsModalLabel">Options</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body container">
+                <form>
+                    <div class="form-group">
+                        <label for="generatorEnabledSelect">Report generator</label>
+                        <select class="form-control custom-select mr-sm-2" id="generatorEnabledSelect"
+                                ng-model="$ctrl.options['generatorEnabled']">
+                            <option ng-value="true">Enabled</option>
+                            <option ng-value="false">Disabled</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportFilterInput">Report filter (regex)</label>
+                        <input type="text" class="form-control" id="reportFilterInput"
+                               ng-model="$ctrl.options['regexFilter']">
+                    </div>
+                    <div class="form-group">
+                        <label for="openLatestReports">Open latest reports</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" placeholder="10" ng-model="$ctrl.options['openLatest']"
+                                   id="openLatestReports"/>
+                            <div class="input-group-append">
+                                <button class="btn btn-info" type="button" ng-click="openLatestReports($ctrl.options['openLatest'])">Open</button>
+                            </div>
+                        </div>
+                        <div class="form-check-inline ml-1 mt-2">
+                            <input class="form-check-input" type="checkbox" id="openReportCheckbox">
+                            <label class="form-check-label" for="openReportCheckbox">
+                                Exclude reports with empty report.xml
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="openInProgressNo">Open report in progress number</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" placeholder="1" id="openInProgressNo"
+                                   ng-model="$ctrl.options['openInProgress']"/>
+                            <div class="input-group-append">
+                                <button class="btn btn-info" type="button">Open</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="form-group form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="" id="reportTransformationCheck"
+                               ng-model="$ctrl.options['transformationEnabled']">
+                        <label class="form-check-label transform-label" for="reportTransformationCheck">
+                            Report.xml Transformations
+                        </label>
+                    </div>
+                    <div class="form-group" ng-show="$ctrl.options['transformationEnabled']">
+                        <label for="transformationTextarea">Transformation</label>
+                        <textarea class="form-control" id="transformationTextarea"
+                                  rows="10">{{$ctrl.options['transformation']}}</textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" ng-click="$ctrl.updateOptions()"><i class="fa fa-undo"></i></button>
+                <button type="button" class="btn btn-info" ng-click="$ctrl.saveOptions()"><i class="fa fa-save"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

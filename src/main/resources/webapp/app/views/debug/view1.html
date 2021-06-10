@@ -1,0 +1,17 @@
+<!--Debug panel-->
+<div class="pl-3">
+    <div class="resizable-vertical" style="min-height: 50px">
+        <metadata-table on-select-relay="table2tree"></metadata-table>
+    </div>
+    <div class="row" style="min-height: 200px">
+        <!--    Treeview panel-->
+        <!--        TODO: Add expand collapse download and close all buttons-->
+        <div class="resizable-horizontal pr-3 border-right">
+            <report-tree on-add-relay="table2tree" on-select-relay="tree2display" storage="storage"></report-tree>
+        </div>
+        <!-- Content panel-->
+        <div class="col" >
+            <report-display on-select-relay="tree2display" storage="storage" apply-transformer="table2tree.transformationEnabled"></report-display>
+        </div>
+    </div>
+</div>

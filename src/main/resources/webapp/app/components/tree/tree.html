@@ -1,0 +1,20 @@
+<div class="row">
+    <button type="button" class="btn btn-info my-2 mx-1 px-3" ng-click="$ctrl.expandAll()">
+        <i class="fa fa-expand" title="Expand All"></i>
+    </button>
+    <button type="button" class="btn btn-info my-2 mx-1 px-3" ng-click="$ctrl.collapseAll()">
+        <i class="fa fa-compress" title="Collapse All"></i>
+    </button>
+    <button type="button" class="btn btn-info my-2 mx-1 px-3" ng-click="$ctrl.closeAll()" title="Close All"><i class="fa fa-times"></i></button>
+    <div class="dropdown">
+        <button type="button" class="btn btn-info my-2 mx-1 dropdown-toggle" data-toggle="dropdown" title="Download"
+                aria-haspopup="true" aria-expanded="false"><i class="fa fa-download px-2"></i><span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#" ng-click="$ctrl.downloadReports(true, true)">Reports & Messages</a></li>
+            <li><a href="#" ng-click="$ctrl.downloadReports(false, true)">Reports</a></li>
+            <li><a href="#" ng-click="$ctrl.downloadReports(true, false)">Messages</a></li>
+        </ul>
+    </div>
+</div>
+<div id="{{$ctrl.treeId}}"></div>

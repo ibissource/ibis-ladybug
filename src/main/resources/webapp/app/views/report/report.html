@@ -1,0 +1,13 @@
+<div>
+    <div class="row">
+        <!--    Treeview panel-->
+        <div class="resizable-horizontal w-25 px-2 border-right">
+            <report-tree on-add-relay="addRelay" on-select-relay="tree2display" storage="storage"
+                         static-root-node="{icon: 'fa fa-folder-open', text: 'Report'}"></report-tree>
+        </div>
+        <!-- Content panel-->
+        <div class="col">
+            <report-display on-select-relay="tree2display" storage="storage" apply-transformer="table2tree.transformationEnabled"></report-display>
+        </div>
+    </div>
+</div>

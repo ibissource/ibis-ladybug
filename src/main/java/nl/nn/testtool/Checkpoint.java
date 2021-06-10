@@ -100,7 +100,7 @@ public class Checkpoint implements Serializable, Cloneable {
 	public void setReport(Report report) {
 		this.report = report;
 	}
-	
+
 	@JsonIgnore
 	public Report getReport() {
 		return report;
@@ -298,10 +298,12 @@ public class Checkpoint implements Serializable, Cloneable {
 		return message;
 	}
 
+	@JsonIgnore
 	public Object getMessageAsObject() {
 		return report.getMessageEncoder().toObject(this);
 	}
 
+	@JsonIgnore
 	public <T> T getMessageAsObject(T messageToStub) {
 		return report.getMessageEncoder().toObject(this, messageToStub);
 	}

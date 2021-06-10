@@ -1,0 +1,179 @@
+<div class="row">
+    <div class="resizable-horizontal w-25 pr-2 border-right">
+        <div class="m-2" id="tree"></div>
+    </div>
+    <div class="col">
+        <div class="row">
+            <button type="button" class="btn btn-info my-2 mr-1 px-3" ng-click="refresh()" title="Refresh">
+                <i class="fa fa-refresh"></i>
+            </button>
+            <button type="button" class="btn btn-info my-2 mx-1 px-3" ng-click="runReport(getSelectedReports())" title="Run">
+                <i class="fa fa-play" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-info my-2 mx-1 px-3" ng-click="resetRunner()" title="Reset"><i class="fa fa-repeat"></i></button>
+            <button type="button" class="btn btn-info my-2 mx-1 px-3" data-toggle="modal" data-target="#optionsModal">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-info my-2 mx-1 px-3" ng-click="changeSelectedAll(true)">Select All
+            </button>
+            <button type="button" class="btn btn-info my-2 mx-1 px-3" ng-click="changeSelectedAll(false)">Deselect All
+            </button>
+            <button type="button" class="btn btn-info my-2 mx-1 px-3" ng-click="deleteReports(getSelectedReports())" title="Delete All">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <div class="row">
+                <div class="input-group col-xl-1 px-0">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-info my-2 mx-1 dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"><i class="fa fa-download px-2"></i><span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="p-1" href="#" ng-click="downloadReports(getSelectedReports(), true, true)">Reports & Messages</a></li>
+                            <li><a href="#" ng-click="downloadReports(getSelectedReports(), false, true)">Reports</a></li>
+                            <li><a href="#" ng-click="downloadReports(getSelectedReports(), true, false)">Messages</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col pl-1">
+                <input type="file" id="upload-file" style="display: none" ng-click="uploadReport()">
+                <button type="button" class="btn btn-info my-2 px-3" onclick="$('#upload-file').click()"><i class="fa fa-upload"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="moveToInput">Move/Copy to:</label>
+            <div class="input-group">
+                <input type="text" class="form-control mr-1" placeholder="1" id="moveToInput"/>
+                <button class="btn btn-info mx-1 mb-2" type="button"
+                        ng-click="moveReports(getSelectedReports(), 'copy')"><i class="fa fa-copy"></i>
+                </button>
+                <button class="btn btn-info mx-1 mb-2" type="button"
+                        ng-click="moveReports(getSelectedReports(), 'move')">Move
+                </button>
+            </div>
+        </div>
+        <div class="row progress" ng-show="progressBar.max > 0">
+            <div class="progress-bar" role="progressbar" style="width: {{progressBar.progress}}%;"
+                 aria-valuenow="{{progressBar.progress}}" aria-valuemin="0"
+                 aria-valuemax="{{progressBar.max}}">{{progressBar.progress}}%</div>
+        </div>
+        <div class="row">
+            <table>
+                <tbody>
+                <tr ng-repeat="report in reports" class="form-inline">
+                    <td>
+                        <input class="form-check-input" type="checkbox" ng-model="report.checked">
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info m-2 col" title="Run" ng-click="runReport([report])">
+                            <i class="fa fa-play" aria-hidden="true" ></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info m-2 col" title="Open" ng-click="openReport([report])">
+                            <i class="fa fa-folder-open"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info m-2 col" title="Clone" ng-click="openCloneModal([report])">
+                            <i class="fa fa-clone"></i>
+                        </button>
+                    </td>
+                    <td ng-show="reranReports.hasOwnProperty(report.storageId)">
+                        <button type="button" class="btn btn-info m-2 col disabled" title="Compare (Not Implemented)" disabled>
+                            <i class="fa fa-not-equal"></i>
+                        </button>
+                    </td>
+                    <td ng-show="reranReports.hasOwnProperty(report.storageId)">
+                        <button type="button" class="btn btn-info m-2 col" title="Replace" ng-click="replaceReport(report)">
+                            <i class="fa fa-exchange-alt"></i>
+                        </button>
+                    </td>
+                    <td ng-show="showOptions.ids">
+                        {{report["storageId"]}}
+                    </td>
+                    <td>
+                        <div class="report-path">{{report["path"] + report["name"]}}</div>
+                        <div class="mb-3 ml-2" ng-show="showOptions.checkpoints && report['csvText'] !== ''">{{report["csvText"]}}</div>
+                    </td>
+                    <td ng-show="reranReports.hasOwnProperty(report.storageId)">
+                        {{reranReports[report.storageId].text}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Options Modal -->
+<div class="modal fade" id="optionsModal" tabindex="-1" role="dialog" aria-labelledby="optionsModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="optionsModalLabel">Options</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form style="text-align: center">
+                    <div class="form-group form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="" id="reportTransformationCheck"
+                               ng-model="showOptions.ids">
+                        <label class="form-check-label transform-label" for="reportTransformationCheck">
+                            Show report storage IDs
+                        </label>
+                    </div>
+                    <div class="form-group form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="" id="showCheckpointIds"
+                               ng-model="showOptions.checkpoints">
+                        <label class="form-check-label transform-label" for="showCheckpointIds">
+                            Show checkpoint IDs
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" ng-click="showOptions = {ids: false, checkpoints: false}">
+                    Restore to defaults
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Clone Report Modal -->
+<div class="modal fade" id="cloneModal" tabindex="-1" role="dialog" aria-labelledby="optionsModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cloneModalLabel">Clone Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body container">
+                <form>
+                    <div class="form-group">
+                        <label for="variableCsvInput">Variable CSV</label>
+                        <textarea class="form-control" id="variableCsvInput" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportInputMessage">Variable CSV</label>
+                        <textarea class="form-control" id="reportInputMessage" rows="5"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" ng-click="cloneReport()">Generate</button>
+            </div>
+        </div>
+    </div>
+</div>

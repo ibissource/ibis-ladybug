@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-6">
+        <metadata-table on-select-relay="left_table2tree" ng-show="left_show"></metadata-table>
+        <report-display on-select-relay="left_tree2display" ng-show="!left_show" storage="storage" apply-transformer="true"></report-display>
+    </div>
+    <div class="col-6">
+        <metadata-table on-select-relay="right_table2tree" ng-show="right_show"></metadata-table>
+        <report-display on-select-relay="right_tree2display" ng-show="!right_show" storage="storage" apply-transformer="true"></report-display>
+    </div>
+</div>
+<div class="row resizable-vertical" style="min-height: 200px">
+    <div class="col-6">
+        <report-tree on-select-relay="left_tree2display" on-add-relay="left_table2tree" storage="storage"
+                     static-root-node="{icon: 'fa fa-folder-open', text: 'Reports'}"></report-tree>
+    </div>
+    <div class="col-6">
+        <report-tree
+                on-select-relay="right_tree2display"
+                on-add-relay="right_table2tree"
+                storage="storage"
+                static-root-node="{icon: 'fa fa-folder-open', text: 'Reports'}"></report-tree>
+    </div>
+</div>

@@ -71,6 +71,7 @@ public class RunApi extends ApiBase {
 			for (int storageId : sources.get(storageParam)) {
 				try {
 					Report report = storage.getReport(storageId);
+					if (report != null)  report.setTestTool(getBean("testTool"));
 					reports.add(report);
 					reranReports.put(storageId, report);
 				} catch (StorageException e) {

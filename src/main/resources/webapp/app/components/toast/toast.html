@@ -1,0 +1,12 @@
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="{{'toast' + $ctrl.componentId}}">
+    <div class="toast-header">
+        <i class="fa fa-exclamation-triangle"></i>
+        <strong class="mr-auto">{{$ctrl.title}}</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        {{$ctrl.text}}
+    </div>
+</div>

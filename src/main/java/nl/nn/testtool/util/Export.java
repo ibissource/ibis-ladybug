@@ -83,8 +83,8 @@ public class Export {
 	}
 
 	private static ExportResult export(Storage storage, Report report,
-			boolean exportReport, boolean exportReportXml,
-			Checkpoint checkpoint, String suggestedFilenameWithoutExtension) {
+									   boolean exportReport, boolean exportReportXml,
+									   Checkpoint checkpoint, String suggestedFilenameWithoutExtension) {
 		return export(storage, null, report, exportReport, exportReportXml, checkpoint, suggestedFilenameWithoutExtension);
 	}
 	private static ExportResult export(Storage storage, List storageIds, Report report,
@@ -116,7 +116,7 @@ public class Export {
 				Iterator iterator = storageIds.iterator();
 				while (iterator.hasNext()) {
 					try {
-					report = storage.getReport((Integer)iterator.next());
+						report = storage.getReport((Integer) iterator.next());
 						if (report == null)
 							continue;
 					} catch (Exception e) {

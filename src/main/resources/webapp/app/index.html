@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en" ng-app="ladybugApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" ng-app="ladybugApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" ng-app="ladybugApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="ladybugApp" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ladybug</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="lib/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="lib/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap-treeview.css">
+
+    <link href="imports/font-awesome/css/font-awesome.min.css" rel="stylesheet"> <!--load all styles -->
+
+    <script src="lib/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <link rel="stylesheet" href="imports/highlight/styles/default.css">
+</head>
+<body>
+<div class="row border-bottom ng-scope">
+
+</div>
+<div class="container-fluid pt-3">
+    <div class="row">
+        <div class="col-lg-12 p-0">
+            <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a
+                    href="http://browsehappy.com/">upgrade
+                your browser</a> to improve your experience.</p>
+            <![endif]-->
+            <!--            <div ng-view></div>-->
+            <ul class="menu nav nav-tabs" id="ladybug-tabs">
+                <li class="nav-item mr-1" id="view1">
+                    <a href="#!/view1" data-toggle="tab" class="nav-link active">Debug</a>
+                </li>
+                <li class="nav-item mr-1" id="view2">
+                    <a href="#!/view2" data-toggle="tab" class="nav-link">Test</a>
+                </li>
+                <li class="nav-item mr-1" id="view3">
+                    <a href="#!/view3" data-toggle="tab" class="nav-link">Compare</a>
+                </li>
+            </ul>
+            <div class="mb-2" ng-view></div>
+        </div>
+    </div>
+</div>
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular-route/angular-route.js"></script>
+<script src="js/app.js"></script>
+<script src="js/directives.js"></script>
+<script src="components/table/table.js"></script>
+<script src="components/tree/tree.js"></script>
+<script src="components/display/display.js"></script>
+<script src="components/toast/toast.js"></script>
+<script src="views/debug/view1.js"></script>
+<script src="views/test/view2.js"></script>
+<script src="views/compare/view3.js"></script>
+<script src="views/report/report.js"></script>
+
+<!-- Bootstrap JS-->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+<!--Treeview library-->
+<script src="js/bootstrap-treeview.js"></script>
+<!-- Highlight.js -->
+<script src="imports/highlight/highlight.pack.js"></script>
+<!--Google's Diff Match Patch-->
+<script src="imports/diff-match-patch/diff_match_patch.js"></script>
+<!--Monaco Editor-->
+<script src="imports/monaco/min/vs/loader.js"></script>
+<script>
+    require.config({ paths: { 'vs': 'imports/monaco/min/vs' }});
+</script>
+</body>
+</html>
